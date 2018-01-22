@@ -2,6 +2,7 @@ var express = require('express');
 var wikiRouter = express.Router();
 const models = require("../models");
 const Page = models.Page;
+const User = models.User;
 
 module.exports = wikiRouter
 
@@ -15,6 +16,15 @@ wikiRouter.post('/', function(req, res, next){
     const page = Page.build({
         title: req.body.title,
         content: req.body.pageContent,
+        // we have "author" column, we need to use the req.body.authorName to find the related user id and that user's info. if the id doesn't exist, we probably want to create a new user.
+        authorId: User.findOrCreate({
+            where: {
+                name: req.body.authorName,
+                email: req.body.authorEmail
+            }
+        }).then(function(dataBack) {
+            Page.authorId = dataBack.id
+        }).catch(next)
     });
 
     page.save()
@@ -27,6 +37,13 @@ wikiRouter.post('/', function(req, res, next){
     })
     .catch(next);
 })
+// when you use find or create, it returns an array, the first value in the array returns the whole object and the second value in the array is whether it was found or it was created
+
+// when you're defining a relationship use "setAuthor" as opposed to manually defining the prop on the page instance.
+
+// we dont need to explicity tell sequelize to setAuthor(user.Id)
+
+// you can't set the author to a page that doesn't exist, hence it must come after the save
 
 wikiRouter.get("/add", function( req, res, next){
     // res.render('../views/views/addpage.html')
@@ -48,4 +65,4 @@ wikiRouter.get("/:urlTitle", function(req, res, next){
     }).catch(next)
 })
 // findAll is searching for multiple instances only.
-// findOne is searching for one instance. 
+// findOne is searching for one instance.

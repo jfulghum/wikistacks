@@ -22,7 +22,7 @@ const Page = db.define('page', {
     allowNull: false
   },
   status: {
-    type: sequelize.ENUM('open', 'closed')// if the values are defined e.g. a picklist
+    type: Sequelize.ENUM('open', 'closed')// if the values are defined e.g. a picklist
   },
   date: {
     type: Sequelize.DATE,

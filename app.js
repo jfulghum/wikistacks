@@ -48,5 +48,5 @@ models.db.sync({force: true})
 .catch(console.error);
 
 
-app.use(express.static("public"))
+app.use(express.static(__dirname + "/public"))
 app.use(router)

@@ -1,0 +1,7 @@
+1. made an app using steps from the express workshop
+2. installed sequelize: npm install sequelize pg@"^6.4.2" --save
+3. created our db in the terminal:  createdb wikistack
+4. added a new module called "models". within models added a new index.js for our sequelize initation code
+5. required sequelize and connected it to "the currently running db process" within models/index.js
+6. defined our models in models/index.js and module exported them
+7. required our models in app.js and subsequently synced our models before the server calls its .listen method with a port

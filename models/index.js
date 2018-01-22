@@ -5,7 +5,9 @@ const db = new Sequelize('postgres://localhost:5432/wikistack', {
 });
 // here we are connecting sequelize to the "currently running database process"
 
+// three arguments for define: first is the name of the table, second is an object which contains the column headers, and third is an object passing more options into the table
 const Page = db.define('page', {
+  // second arg
   title: {
     type: Sequelize.STRING,
     allowNull: false
@@ -28,13 +30,27 @@ const Page = db.define('page', {
     type: Sequelize.DATE,
     defaultValue: Sequelize.NOW
   }
-}, {
-  getterMethods: { // correct?
+}, { // third arg
+  getterMethods: {
     route: function() {
       return '/wiki/' + this.urlTitle
+      // making a new url title
     }
+  // },
+  //   hooks: {
+  //     beforeValidate: generateUrlTitle = (page) => {
+  //       if (page.title) {
+  //         // Removes all non-alphanumeric characters from title
+  //         // And make whitespace underscore
+  //         page.urlTitle = page.title.replace(/\s+/g, '_').replace(/\W/g, '');
+  //       } else {
+  //         // Generates random 5 letter string
+  //         page.urlTitle = Math.random().toString(36).substring(2, 7);
+  //       }
+  //    }
   }
-});
+}
+);
 
 const User = db.define('user', {
   name: {

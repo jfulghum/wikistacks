@@ -6,15 +6,18 @@ var router = require("./routes");
 var bodyParser = require("body-parser");
 const models = require("./models");
 
+// body parser should come before anything i.e. after you define app
+app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.json());
+
 app.engine("html", nunjucks.render);
 app.set('view engine', 'html');
 nunjucks.configure('views', {noCache: true});
 
 app.use(morgan('dev'));
 
-app.use(bodyParser.urlencoded({extended: true}))
-app.use(bodyParser.json());
-
+app.use(express.static(__dirname + "/public"))
+app.use(router)
 
 /* we could sync each model individually:
 // we need to sync our models before we starting listening on the port:
@@ -48,5 +51,4 @@ models.db.sync({force: true})
 .catch(console.error);
 
 
-app.use(express.static(__dirname + "/public"))
-app.use(router)
+

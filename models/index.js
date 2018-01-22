@@ -67,7 +67,7 @@ const User = db.define('user', {
 });
 
 // here we are establishing a connection that describes that a page has one user associated with it and that info will be established on the pages table rows. when we run this, we add a new column to the page table called "author" that references the related user (by ID)
-Page.belongsTo(User, {as: 'author'})
+Page.belongsTo(User, {as: 'author'});
 
 
 module.exports = {

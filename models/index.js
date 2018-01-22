@@ -15,9 +15,6 @@ const Page = db.define('page', {
   urlTitle: {
     type: Sequelize.STRING,
     allowNull: false
-    // validate: {
-    //   isURL: true
-    // }
   },
   content: {
     type: Sequelize.TEXT, // text here b/c "text" has an unlimited amount of characters whereas "string" has 255 char limit
@@ -29,7 +26,14 @@ const Page = db.define('page', {
   date: {
     type: Sequelize.DATE,
     defaultValue: Sequelize.NOW
-  }
+  },
+// Karen likes this way of writing getterMethods, I think I do too. 
+//   route: {
+//     type: Sequelize.VIRTUAL,
+//     get() {
+  //      return '/wiki/' + this.urlTitle
+//     }
+//   }
 }, { // third arg
   getterMethods: {
     route: function() {
@@ -49,8 +53,7 @@ const Page = db.define('page', {
         }
      }
   }
-}
-);
+});
 
 const User = db.define('user', {
   name: {

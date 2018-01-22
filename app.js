@@ -14,9 +14,10 @@ app.engine("html", nunjucks.render);
 app.set('view engine', 'html');
 nunjucks.configure('views', {noCache: true});
 
-app.use(morgan('dev'));
+app.use(morgan('dev')); // gives you info about the route. 
 
-app.use(express.static(__dirname + "/public"))
+app.use(express.static(__dirname + "/public")) //if you want stylesheets, for example.
+// so anything you put in static, we can access through the url. 
 app.use(router)
 
 /* we could sync each model individually:
@@ -38,10 +39,10 @@ models.User.sync({}) // a promise, when it resolves then then sync page.
 
 alternativel, we can sync the entire db at once
 */
-
+// make sure you keep your app.listen after the db.sync promise.
+// {force: true}
 // the force: true parameter will drop the table first and re-create it afterwards.  - if you force, existing tables will be overwritten
 
-// {force: true}
 models.db.sync({force: false})
 .then(function () {
     app.listen(3000, function () {

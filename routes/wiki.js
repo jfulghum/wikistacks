@@ -19,7 +19,11 @@ wikiRouter.post('/', function(req, res, next){
 
     page.save()
     .then(function() {
-        res.redirect('/')
+        res.redirect(page.route)
+        // res.render("wikipage", {
+        //     page
+        // })
+        // what is the difference between the res.render & res.redirect?
     })
     .catch(next);
 })
@@ -29,3 +33,19 @@ wikiRouter.get("/add", function( req, res, next){
     res.render('addpage');
 })
 
+//:anything is a wildcard so we have to put this below /add. or we'll never get to add!
+wikiRouter.get("/:urlTitle", function(req, res, next){
+    Page.findOne({
+        where: {
+            urlTitle: req.params.urlTitle
+        }
+    })
+    .then(function(page){
+       // res.json(page)
+       res.render("wikipage", {
+           page
+       })
+    }).catch(next)
+})
+// findAll is searching for multiple instances only.
+// findOne is searching for one instance. 

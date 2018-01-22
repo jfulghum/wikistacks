@@ -14,10 +14,10 @@ const Page = db.define('page', {
   },
   urlTitle: {
     type: Sequelize.STRING,
-    allowNull: false,
-    validate: {
-      isURL: true
-    }
+    allowNull: false
+    // validate: {
+    //   isURL: true
+    // }
   },
   content: {
     type: Sequelize.TEXT, // text here b/c "text" has an unlimited amount of characters whereas "string" has 255 char limit
@@ -36,18 +36,18 @@ const Page = db.define('page', {
       return '/wiki/' + this.urlTitle
       // making a new url title
     }
-  // },
-  //   hooks: {
-  //     beforeValidate: generateUrlTitle = (page) => {
-  //       if (page.title) {
-  //         // Removes all non-alphanumeric characters from title
-  //         // And make whitespace underscore
-  //         page.urlTitle = page.title.replace(/\s+/g, '_').replace(/\W/g, '');
-  //       } else {
-  //         // Generates random 5 letter string
-  //         page.urlTitle = Math.random().toString(36).substring(2, 7);
-  //       }
-  //    }
+  },
+    hooks: {
+      beforeValidate: generateUrlTitle = (page) => {
+        if (page.title) {
+          // Removes all non-alphanumeric characters from title
+          // And make whitespace underscore
+          page.urlTitle = page.title.replace(/\s+/g, '_').replace(/\W/g, '');
+        } else {
+          // Generates random 5 letter string
+          page.urlTitle = Math.random().toString(36).substring(2, 7);
+        }
+     }
   }
 }
 );

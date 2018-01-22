@@ -41,8 +41,8 @@ alternativel, we can sync the entire db at once
 
 // the force: true parameter will drop the table first and re-create it afterwards.  - if you force, existing tables will be overwritten
 
-
-models.db.sync({force: true})
+// {force: true}
+models.db.sync({force: false})
 .then(function () {
     app.listen(3000, function () {
         console.log('Server is listening on port 3000!');
